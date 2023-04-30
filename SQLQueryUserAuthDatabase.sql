@@ -1,0 +1,39 @@
+--GO
+--USE master
+
+--GO 
+--CREATE DATABASE UserAuthSample
+
+--GO
+--USE UserAuthSample
+
+--GO
+--CREATE TABLE Roles
+--(
+--[Id] INT PRIMARY KEY IDENTITY,
+--[Name] NVARCHAR(100) UNIQUE NOT NULL,
+--)
+
+----Initital Roles
+--GO
+--INSERT INTO Roles VALUES (N'Admin');
+--INSERT INTO Roles VALUES (N'User');
+
+--GO
+--CREATE TABLE Users
+--(
+--[Id] INT PRIMARY KEY IDENTITY,
+--[Login] NVARCHAR(100) UNIQUE NOT NULL,
+--[Password] NVARCHAR(100) NOT NULL,
+--[RoleId] INT FOREIGN KEY REFERENCES Roles(ID) NOT NULL,
+--[Salt] NVARCHAR(255) UNIQUE NOT NULL,
+--)
+
+ --GO
+ --CREATE TABLE RefreshTokens
+ --(
+ --[Id] INT PRIMARY KEY IDENTITY,
+ --[Token] NVARCHAR(255) NOT NULL,
+ --[Expires] DATETIME NOT NULL,
+ --[UserId] INT REFERENCES Users(Id) NOT NULL 
+ --)
