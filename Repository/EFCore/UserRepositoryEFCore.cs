@@ -55,7 +55,7 @@ namespace UserAuth.Repository.EFCore
 		{
 			var loggedInUser = await _dbContext.Users
 				.Include(u => u.Role)
-									.FirstOrDefaultAsync(x => x.Login == login);
+									.FirstOrDefaultAsync(x => EF.Functions.Collate(x.Login, "SQL_Latin1_General_CP1_CS_AS")==login);
 			if (loggedInUser != null && Hasher.HashPassword($"{password}{loggedInUser.Salt}") == loggedInUser.Password)
 			{
 
@@ -79,8 +79,9 @@ namespace UserAuth.Repository.EFCore
 			var refreshToken = await _dbContext.RefreshTokens
 				.Include(x => x.User)
 				.Include(x => x.User.Role)
-				.FirstOrDefaultAsync(x => x.Token == token);
+				.FirstOrDefaultAsync(x => EF.Functions.Collate(x.Token, "SQL_Latin1_General_CP1_CS_AS") == token);
 
+		
 			return refreshToken!;
 		}
 

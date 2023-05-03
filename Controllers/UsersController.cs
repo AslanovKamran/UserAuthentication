@@ -17,7 +17,7 @@ namespace UserAuth.Controllers
 		[ProducesResponseType(200)]
 		[ProducesResponseType(401)]
 		[ProducesResponseType(403)]
-		//[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetUsers()
 		{
 			var users = await _repos.GetUsersAsync();
@@ -30,7 +30,7 @@ namespace UserAuth.Controllers
 		[ProducesResponseType(401)]
 		[ProducesResponseType(403)]
 		[ProducesResponseType(404)]
-		//[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetUser(int id)
 		{
 			var user = await _repos.GetUserAsync(id);

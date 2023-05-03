@@ -93,6 +93,7 @@ namespace UserAuth.Controllers
 		{
 			//Get OldToken (with mapped user) by refreshToken
 			var oldToken = await _userRepository.GetRefreshTokenByToken(request.RefreshToken);
+			
 			if (oldToken == null) return Unauthorized();
 
 			else if (oldToken != null && oldToken.Expires < DateTime.Now)
@@ -101,12 +102,14 @@ namespace UserAuth.Controllers
 				await _userRepository.RemoveOldRefreshToken(oldToken.Token);
 				return Unauthorized();
 			}
+			
 			var user = oldToken?.User;
+			
 
-			//RemoveOldToken
+			//Remove Old Refresh Token
 			await _userRepository.RemoveOldRefreshToken(oldToken!.Token);
 
-			//Create new refreshToken and add a new RefreshToken to the DB
+			//Create new Refresh Token and add a new RefreshToken to the DB
 			RefreshToken newRefreshToken = new()
 			{
 				Token = _tokenGenerator.GenerateRefreshToken(),
